@@ -4,12 +4,12 @@ const User = require('../models/user')
 const initialNotes = [
   {
     content: 'HTML is easy',
-    important: false
+    important: false,
   },
   {
     content: 'Browser can execute only JavaScript',
-    important: true
-  }
+    important: true,
+  },
 ]
 
 const nonExistingId = async () => {
@@ -19,7 +19,6 @@ const nonExistingId = async () => {
 
   return note._id.toString()
 }
-
 
 const usersInDb = async () => {
   const users = await User.find({})
@@ -32,5 +31,8 @@ const notesInDb = async () => {
 }
 
 module.exports = {
-  initialNotes, nonExistingId, notesInDb, usersInDb
+  initialNotes,
+  nonExistingId,
+  notesInDb,
+  usersInDb,
 }

@@ -38,7 +38,6 @@ describe('when there is initially some notes saved', () => {
   })
 
   describe('viewing a specific note', () => {
-
     test('succeeds with a valid id', async () => {
       const notesAtStart = await helper.notesInDb()
 
@@ -55,17 +54,13 @@ describe('when there is initially some notes saved', () => {
     test('fails with statuscode 404 if note does not exist', async () => {
       const validNonexistingId = await helper.nonExistingId()
 
-      await api
-        .get(`/api/notes/${validNonexistingId}`)
-        .expect(404)
+      await api.get(`/api/notes/${validNonexistingId}`).expect(404)
     })
 
     test('fails with statuscode 400 id is invalid', async () => {
       const invalidId = '5a3d5da59070081a82a3445'
 
-      await api
-        .get(`/api/notes/${invalidId}`)
-        .expect(400)
+      await api.get(`/api/notes/${invalidId}`).expect(400)
     })
   })
 
@@ -91,13 +86,10 @@ describe('when there is initially some notes saved', () => {
 
     test('fails with status code 400 if data invalid', async () => {
       const newNote = {
-        important: true
+        important: true,
       }
 
-      await api
-        .post('/api/notes')
-        .send(newNote)
-        .expect(400)
+      await api.post('/api/notes').send(newNote).expect(400)
 
       const notesAtEnd = await helper.notesInDb()
 
@@ -110,9 +102,7 @@ describe('when there is initially some notes saved', () => {
       const notesAtStart = await helper.notesInDb()
       const noteToDelete = notesAtStart[0]
 
-      await api
-        .delete(`/api/notes/${noteToDelete.id}`)
-        .expect(204)
+      await api.delete(`/api/notes/${noteToDelete.id}`).expect(204)
 
       const notesAtEnd = await helper.notesInDb()
 

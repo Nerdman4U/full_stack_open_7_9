@@ -12,8 +12,7 @@ const getTokenFrom = request => {
 }
 
 notesRouter.get('/', async (request, response) => {
-  const notes = await Note
-    .find({}).populate('user', { username: 1, name: 1 })
+  const notes = await Note.find({}).populate('user', { username: 1, name: 1 })
   response.json(notes)
 })
 
@@ -25,7 +24,9 @@ notesRouter.put('/:id', async (request, response) => {
     important: body.important,
   }
 
-  const updatedNote = await Note.findByIdAndUpdate(request.params.id, note, { new: true })
+  const updatedNote = await Note.findByIdAndUpdate(request.params.id, note, {
+    new: true,
+  })
   response.json(updatedNote)
 })
 
@@ -40,7 +41,7 @@ notesRouter.post('/', async (request, response) => {
   const note = new Note({
     content: body.content,
     important: body.important || false,
-    user: user._id
+    user: user._id,
   })
 
   const savedNote = await note.save()

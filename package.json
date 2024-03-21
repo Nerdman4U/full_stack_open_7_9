@@ -25,6 +25,7 @@
     "@stylistic/eslint-plugin-js": "^1.6.1",
     "eslint": "^8.56.0",
     "nodemon": "^3.0.3",
+    "prettier": "^3.2.5",
     "supertest": "^6.3.4"
   }
 }
