@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 const notesRouter = require('express').Router()
 const Note = require('../models/note')
 const User = require('../models/user')
+const Comment = require('../models/comment')
 
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
@@ -12,7 +13,13 @@ const getTokenFrom = request => {
 }
 
 notesRouter.get('/', async (request, response) => {
-  const notes = await Note.find({}).populate('user', { username: 1, name: 1 })
+  //const notes = await Note.find({}).populate('user', { username: 1, name: 1 })
+  const notes = await Note.find({})
+    .populate('user', {
+      username: 1,
+      name: 1,
+    })
+    .populate('comments')
   response.json(notes)
 })
 
@@ -49,6 +56,18 @@ notesRouter.post('/', async (request, response) => {
   await user.save()
 
   response.status(201).json(savedNote)
+})
+
+notesRouter.post('/:id/comments', async (request, response) => {
+  const body = request.body
+  const comment = new Comment({
+    content: body.content,
+  })
+  const savedComment = await comment.save()
+  const note = await Note.findById(request.params.id)
+  note.comments = note.comments.concat(savedComment._id)
+  await note.save()
+  response.status(201).json(savedComment)
 })
 
 notesRouter.get('/:id', async (request, response) => {
